@@ -40,7 +40,9 @@ const ThemeSwitcher = () => {
 `;
 
     useEffect(() => {
+        console.log(theme)
         document.body.dataset.theme = theme;
+        window.localStorage.setItem("theme", theme);
     }, [theme]);
 
     return (
@@ -54,7 +56,7 @@ const ThemeSwitcher = () => {
                 type="button"
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-                {theme === 'dark' ? <span>☀️</span> : <span>🌙</span>}
+                {inactiveTheme === 'light' ? <span>☀️</span> : <span>🌙</span>}
             </ToggleButton>
         </>
     )

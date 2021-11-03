@@ -22,6 +22,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const HamburgerMenu = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -93,7 +94,7 @@ const HamburgerMenu = () => {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <Avatar /> Profile
+                    <DashboardIcon /> Dashboard
                 </MenuItem>
                 <MenuItem>
                     <Avatar /> My account
