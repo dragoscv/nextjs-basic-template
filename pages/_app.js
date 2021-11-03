@@ -10,7 +10,7 @@ function MyApp({ Component, ctx, pageProps }) {
   return (
     <><Provider session={pageProps.session}>
       <AppProvider>
-        <ThemeProvider enableSystem={false} defaultTheme = 'dark'>
+        <ThemeProvider enableSystem={true}>
           <Layout>
             <Component {...pageProps} />
           </Layout>

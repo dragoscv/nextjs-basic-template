@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { headerContent } from '../../translations/headerContent';
 
 const ThemeSwitcher = () => {
-    const { theme, setTheme } = useTheme()
+    const { theme, setTheme, resolvedTheme } = useTheme()
     const inactiveTheme = theme === "light" ? "dark" : "light";
     const { locale, locales, defaultLocale, asPath } = useRouter();
     const { content } = headerContent[locale];
@@ -40,9 +40,9 @@ const ThemeSwitcher = () => {
 `;
 
     useEffect(() => {
-        console.log(theme)
-        document.body.dataset.theme = theme;
-        window.localStorage.setItem("theme", theme);
+        console.log(resolvedTheme)
+        document.body.dataset.theme = resolvedTheme;
+        window.localStorage.setItem("theme", resolvedTheme);
     }, [theme]);
 
     return (
@@ -54,7 +54,7 @@ const ThemeSwitcher = () => {
                 aria-label={`Change to ${inactiveTheme} mode`}
                 title={`Change to ${inactiveTheme} mode`}
                 type="button"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
             >
                 {inactiveTheme === 'light' ? <span>☀️</span> : <span>🌙</span>}
             </ToggleButton>
