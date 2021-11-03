@@ -40,7 +40,6 @@ const ThemeSwitcher = () => {
 `;
 
     useEffect(() => {
-        console.log(resolvedTheme)
         document.body.dataset.theme = resolvedTheme;
         window.localStorage.setItem("theme", resolvedTheme);
     }, [theme]);

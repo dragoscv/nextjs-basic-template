@@ -23,8 +23,11 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import InfoIcon from '@mui/icons-material/Info';
+import EmailIcon from '@mui/icons-material/Email';
 
 const HamburgerMenu = () => {
+    const router = useRouter()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClickMenu = (event) => {
@@ -45,6 +48,9 @@ const HamburgerMenu = () => {
     const [language, setLanguage] = React.useState('')
     const handleChangeLanguage = (lang) => {
         router.push({ pathname, query }, asPath, { locale: lang.target.value })
+    }
+    const goToDashboard = ( ) => {
+        router.push('/dashboard','/dashboard' , { locale: locale })
     }
 
     return (
@@ -93,41 +99,51 @@ const HamburgerMenu = () => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem>
-                    <DashboardIcon /> Dashboard
-                </MenuItem>
-                <MenuItem>
-                    <Avatar /> My account
+                <MenuItem onClick={goToDashboard}>
+                    <ListItemIcon>
+                        <DashboardIcon fontSize="small" sx={{ mr: 1 }} />
+                    </ListItemIcon>
+                    {content.textDashboard}
                 </MenuItem>
                 <Divider />
                 <MenuItem>
                     <ListItemIcon>
-                        <PersonAdd fontSize="small" />
+                        <InfoIcon fontSize="small" />
                     </ListItemIcon>
-                    Add another account
+                    {content.textAbout}
+                </MenuItem>
+                <MenuItem>
+                    <ListItemIcon>
+                        <EmailIcon fontSize="small" />
+                    </ListItemIcon>
+                    {content.textContact}
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>
                         <LanguageIcon fontSize="small" />
                     </ListItemIcon>
                     <FormControl sx={{ m: 1 }}>
-                    <InputLabel htmlFor="select">Language</InputLabel>
+                        <InputLabel htmlFor="select">{content.textLanguages}</InputLabel>
                         <Select
                             value={language}
                             onChange={handleChangeLanguage}
-                            sx={{ height: "32px", minWidth:"150px" }}
+                            sx={{ minWidth: "150px" }}
+                            inputProps={{ 'aria-label': 'Without label' }}
                             label={language}
                             renderValue={(selected) => {
                                 if (selected.length === 0) {
-                                  return <em>{content.Languages}</em>;
+                                    return <em>{content.textLanguages}</em>;
                                 }
-                    
+
                                 return selected.join(', ');
-                              }}
+                            }}
                         >
-                            <MenuItem value='en-US'>{content.textLanguageEnglishUS}</MenuItem>
-                            <MenuItem value='en-GB'>{content.textLanguageEnglishUK}</MenuItem>
-                            <MenuItem value='ro-RO'>{content.textLanguageRO}</MenuItem>
+                            {/* <MenuItem value="">
+                                <em>Language</em>
+                            </MenuItem> */}
+                            <MenuItem value='en-US'>🇺🇸{content.textLanguageEnglishUS}</MenuItem>
+                            <MenuItem value='en-GB'>🇬🇧{content.textLanguageEnglishUK}</MenuItem>
+                            <MenuItem value='ro-RO'>🇷🇴{content.textLanguageRO}</MenuItem>
                         </Select>
                     </FormControl>
                 </MenuItem>
