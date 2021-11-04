@@ -25,6 +25,8 @@ import InputLabel from '@mui/material/InputLabel';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InfoIcon from '@mui/icons-material/Info';
 import EmailIcon from '@mui/icons-material/Email';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from 'next-themes'
 
 const HamburgerMenu = () => {
     const router = useRouter()
@@ -49,9 +51,20 @@ const HamburgerMenu = () => {
     const handleChangeLanguage = (lang) => {
         router.push({ pathname, query }, asPath, { locale: lang.target.value })
     }
-    const goToDashboard = ( ) => {
-        router.push('/dashboard','/dashboard' , { locale: locale })
+    const goToDashboard = () => {
+        router.push('/dashboard', '/dashboard', { locale: locale })
     }
+    const { theme, setTheme, resolvedTheme } = useTheme()
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+        },
+    });
+    const lightTheme = createTheme({
+        palette: {
+            mode: 'light',
+        },
+    });
 
     return (
         <React.Fragment>
@@ -65,103 +78,105 @@ const HamburgerMenu = () => {
 
                 </Tooltip>
             </Box>
-            <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleCloseMenu}
-                onClick={handleCloseMenu}
-                PaperProps={{
-                    elevation: 0,
-                    sx: {
-                        overflow: 'visible',
-                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                        mt: 1.5,
-                        '& .MuiAvatar-root': {
-                            width: 32,
-                            height: 32,
-                            ml: -0.5,
-                            mr: 1,
+            <ThemeProvider theme={resolvedTheme === 'dark' ? darkTheme : lightTheme}>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleCloseMenu}
+                    onClick={handleCloseMenu}
+                    PaperProps={{
+                        elevation: 0,
+                        sx: {
+                            overflow: 'visible',
+                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                            mt: 1.5,
+                            '& .MuiAvatar-root': {
+                                width: 32,
+                                height: 32,
+                                ml: -0.5,
+                                mr: 1,
+                            },
+                            '&:before': {
+                                content: '""',
+                                display: 'block',
+                                position: 'absolute',
+                                top: 0,
+                                right: 14,
+                                width: 10,
+                                height: 10,
+                                bgcolor: 'background.paper',
+                                transform: 'translateY(-50%) rotate(45deg)',
+                                zIndex: 0,
+                            },
                         },
-                        '&:before': {
-                            content: '""',
-                            display: 'block',
-                            position: 'absolute',
-                            top: 0,
-                            right: 14,
-                            width: 10,
-                            height: 10,
-                            bgcolor: 'background.paper',
-                            transform: 'translateY(-50%) rotate(45deg)',
-                            zIndex: 0,
-                        },
-                    },
-                }}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            >
-                <MenuItem onClick={goToDashboard}>
-                    <ListItemIcon>
-                        <DashboardIcon fontSize="small" sx={{ mr: 1 }} />
-                    </ListItemIcon>
-                    {content.textDashboard}
-                </MenuItem>
-                <Divider />
-                <MenuItem>
-                    <ListItemIcon>
-                        <InfoIcon fontSize="small" />
-                    </ListItemIcon>
-                    {content.textAbout}
-                </MenuItem>
-                <MenuItem>
-                    <ListItemIcon>
-                        <EmailIcon fontSize="small" />
-                    </ListItemIcon>
-                    {content.textContact}
-                </MenuItem>
-                <MenuItem>
-                    <ListItemIcon>
-                        <LanguageIcon fontSize="small" />
-                    </ListItemIcon>
-                    <FormControl sx={{ m: 1 }}>
-                        <InputLabel htmlFor="select">{content.textLanguages}</InputLabel>
-                        <Select
-                            value={language}
-                            onChange={handleChangeLanguage}
-                            sx={{ minWidth: "150px" }}
-                            inputProps={{ 'aria-label': 'Without label' }}
-                            label={language}
-                            renderValue={(selected) => {
-                                if (selected.length === 0) {
-                                    return <em>{content.textLanguages}</em>;
-                                }
+                    }}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                >
+                    <MenuItem onClick={goToDashboard}>
+                        <ListItemIcon>
+                            <DashboardIcon fontSize="small" sx={{ mr: 1 }} />
+                        </ListItemIcon>
+                        {content.textDashboard}
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem>
+                        <ListItemIcon>
+                            <InfoIcon fontSize="small" />
+                        </ListItemIcon>
+                        {content.textAbout}
+                    </MenuItem>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <EmailIcon fontSize="small" />
+                        </ListItemIcon>
+                        {content.textContact}
+                    </MenuItem>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <LanguageIcon fontSize="small" />
+                        </ListItemIcon>
+                        <FormControl sx={{ m: 1 }}>
+                            <InputLabel htmlFor="select">{content.textLanguages}</InputLabel>
+                            <Select
+                                value={language}
+                                onChange={handleChangeLanguage}
+                                sx={{ minWidth: "150px" }}
+                                inputProps={{ 'aria-label': 'Without label' }}
+                                label={language}
+                                renderValue={(selected) => {
+                                    if (selected.length === 0) {
+                                        return <em>{content.textLanguages}</em>;
+                                    }
 
-                                return selected.join(', ');
-                            }}
-                        >
-                            {/* <MenuItem value="">
+                                    return selected.join(', ');
+                                }}
+                            >
+                                {/* <MenuItem value="">
                                 <em>Language</em>
                             </MenuItem> */}
-                            <MenuItem value='en-US'>🇺🇸{content.textLanguageEnglishUS}</MenuItem>
-                            <MenuItem value='en-GB'>🇬🇧{content.textLanguageEnglishUK}</MenuItem>
-                            <MenuItem value='ro-RO'>🇷🇴{content.textLanguageRO}</MenuItem>
-                        </Select>
-                    </FormControl>
-                </MenuItem>
-                {session ?
-                    <MenuItem onClick={handleSignOut}>
-                        <ListItemIcon>
-                            <Logout fontSize="small" />
-                        </ListItemIcon>
-                        {content.textLogout}
+                                <MenuItem value='en-US'>🇺🇸{content.textLanguageEnglishUS}</MenuItem>
+                                <MenuItem value='en-GB'>🇬🇧{content.textLanguageEnglishUK}</MenuItem>
+                                <MenuItem value='ro-RO'>🇷🇴{content.textLanguageRO}</MenuItem>
+                            </Select>
+                        </FormControl>
                     </MenuItem>
-                    :
-                    <MenuItem onClick={handleSignIn}>
-                        <ListItemIcon>
-                            <Login fontSize="small" />
-                        </ListItemIcon>
-                        {content.textLogin}
-                    </MenuItem>}
-            </Menu>
+                    {session ?
+                        <MenuItem onClick={handleSignOut}>
+                            <ListItemIcon>
+                                <Logout fontSize="small" />
+                            </ListItemIcon>
+                            {content.textLogout}
+                        </MenuItem>
+                        :
+                        <MenuItem onClick={handleSignIn}>
+                            <ListItemIcon>
+                                <Login fontSize="small" />
+                            </ListItemIcon>
+                            {content.textLogin}
+                        </MenuItem>}
+                </Menu>
+            </ThemeProvider>
         </React.Fragment>
     )
 }
